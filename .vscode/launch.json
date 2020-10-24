@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/ascii-art-generator",
-            "args": ["examples/british_summer.jpg"],
+            "args": ["examples/hqdefault.jpg"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

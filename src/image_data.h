@@ -18,5 +18,7 @@ void load_image_file(const char *name, Img *pic);
 void save_image_file(const char *name, Img *pic);
 int calcula_intensidade(RGB *pixel);
 void image_to_gray(Img *pic);
+void group_pixel(Img *pic, int widthBlock, int heightBlock);
+char gray_to_ascii(int gray, char *map, int sizeMap);
 
 #endif

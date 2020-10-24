@@ -32,6 +32,7 @@ int calcula_intensidade(RGB *pixel)
     return 0.3 * pixel->r + 0.59 * pixel->g + 0.11 * pixel->b;
 }
 
+// Conforme item 2.2 do enunciado disponibilizado https://mflash.github.io/progswb2/trab/t1-202-hjb7fyhdc/
 void image_to_gray(Img *pic)
 {
     for (int i = 0; i < (pic->width * pic->height); i++)
@@ -41,4 +42,60 @@ void image_to_gray(Img *pic)
         pic->img[i].g = intensidade;
         pic->img[i].b = intensidade;
     }
+}
+
+void group_pixel(Img *pic, int widthBlock, int heightBlock)
+{
+
+    // Calcula area valida para m
+    int maxWidth = pic->width - (pic->width % widthBlock);
+    int maxHeight = pic->height - (pic->height % heightBlock);
+
+    for (int x = 0; x < maxWidth; x += widthBlock)
+    {
+        for (int y = 0; y < maxHeight; y += heightBlock)
+        {
+            int media = 0;
+
+            // Laço para calcular a média do bloco
+            for (int i = 0; i < heightBlock; i++)
+            {
+                for (int j = 0; j < widthBlock; j++)
+                {
+                    int pos = ((i + y) * maxWidth) + (j + x);
+                    media += pic->img[pos].r;
+                }
+            }
+
+            // Finaliza calculo da média
+            media /= widthBlock * heightBlock;
+
+            // Laço para definir novo valor do bloco
+            for (int i = 0; i < heightBlock; i++)
+            {
+                for (int j = 0; j < widthBlock; j++)
+                {
+                    int pos = ((i + y) * maxWidth) + (j + x);
+                    pic->img[pos].r = media;
+                    pic->img[pos].g = media;
+                    pic->img[pos].b = media;
+                }
+            }
+        }
+    }
+    pic->width = maxWidth;
+    pic->height = maxHeight;
+}
+
+char gray_to_ascii(int gray, char *map, int sizeMap)
+{
+    int block = 256 / sizeMap;
+    for (int i = 0; i < sizeMap; i++)
+    {
+        if (gray < block * (i + 1))
+        {
+            return map[i];
+        }
+    }
+    return map[sizeMap - 1];
 }
